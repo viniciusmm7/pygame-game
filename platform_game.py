@@ -10,8 +10,12 @@ FPS = 60
 VOLUME = 1.0 # Have to be a float number between 0 and 1
 
 # ----- Geometry
-window_width  = 900
-window_height = 900
+window_width  = 1000
+window_height = 1000
+hero_width    = 50
+hero_height   = 100
+enemy_width   = 40
+enemy_height  = 80
 
 # ----- Generating Main Window
 window = pygame.display.set_mode((int(window_width), int(window_height)))
@@ -54,93 +58,222 @@ quit_btn_pos_left     = int(window_width * 8/11 - main_menu_btn_w / 4)
 
 # ----- Assets
 pygame.mixer.music.load('assets/music/menu_theme.ogg')
-pygame.mixer.music.set_volume(VOLUME)
-pygame.mixer.music.play(loops = -1)
+pygame.mixer.music.set_volume(1)
+pygame.mixer.music.play()
+def load_assets():
+    assets = {}
+    ''' Game related imgs '''
+    assets['enemy_img']         = pygame.image.load('assets/img/enemy.png').convert_alpha()
+    assets['enemy_img']         = pygame.transform.scale(assets['enemy_img'], (enemy_width, enemy_height))
+    assets['enemy_left_img_0']  = pygame.image.load('assets/img/enemy_left_0.png').convert_alpha()
+    assets['enemy_left_img_0']  = pygame.transform.scale(assets['enemy_left_img_0'], (enemy_width, enemy_height))
+    assets['enemy_left_img_1']  = pygame.image.load('assets/img/enemy_left_1.png').convert_alpha()
+    assets['enemy_left_img_1']  = pygame.transform.scale(assets['enemy_left_img_1'], (enemy_width, enemy_height))
+    assets['enemy_right_img_0'] = pygame.image.load('assets/img/enemy_right_0.png').convert_alpha()
+    assets['enemy_right_img_0'] = pygame.transform.scale(assets['enemy_right_img_0'], (enemy_width, enemy_height))
+    assets['enemy_right_img_1'] = pygame.image.load('assets/img/enemy_right_1.png').convert_alpha()
+    assets['enemy_right_img_1'] = pygame.transform.scale(assets['enemy_right_img_1'], (enemy_width, enemy_height))
+
+    assets['hero_left_img']     = pygame.image.load('assets/img/hero_left.png').convert_alpha()
+    assets['hero_left_img']     = pygame.transform.scale(assets['hero_left_img'], (hero_width, hero_height))
+    assets['hero_right_img']    = pygame.image.load('assets/img/hero_right.png').convert_alpha()
+    assets['hero_right_img']    = pygame.transform.scale(assets['hero_right_img'], (hero_width, hero_height))
+
+    assets['bullet_left_img']   = pygame.image.load('assets/img/bullet_left.png').convert_alpha()
+    assets['bullet_left_img']   = pygame.transform.scale(assets['bullet_left_img'], (hero_height, hero_width))
+    assets['bullet_right_img']  = pygame.image.load('assets/img/bullet_right.png').convert_alpha()
+    assets['bullet_right_img']  = pygame.transform.scale(assets['bullet_right_img'], (hero_height, hero_width))
+
+    ''' Other imgs '''
+    assets['background_day']    = pygame.image.load('assets/img/background_day.png').convert()
+    assets['background_day']    = pygame.transform.scale(assets['background_day'], (window_width, window_height))
+    assets['background_day_1']  = pygame.image.load('assets/img/background_day_1.png').convert()
+    assets['background_day_1']  = pygame.transform.scale(assets['background_day_1'], (7*window_width, window_height))
+    assets['background_night']  = pygame.image.load('assets/img/background_night.png').convert()
+    assets['background_night']  = pygame.transform.scale(assets['background_night'], (window_width, window_height))
+    assets['play_img_0']        = pygame.image.load('assets/img/play_0.png').convert_alpha()
+    assets['play_img_0']        = pygame.transform.scale(assets['play_img_0'], (main_menu_btn_w, main_menu_btn_h))
+    assets['play_img_1']        = pygame.image.load('assets/img/play_1.png').convert_alpha()
+    assets['play_img_1']        = pygame.transform.scale(assets['play_img_1'], (main_menu_btn_w, main_menu_btn_h))
+    assets['options_img_0']     = pygame.image.load('assets/img/options_0.png').convert_alpha()
+    assets['options_img_0']     = pygame.transform.scale(assets['options_img_0'], (main_menu_btn_w, main_menu_btn_h))
+    assets['options_img_1']     = pygame.image.load('assets/img/options_1.png').convert_alpha()
+    assets['options_img_1']     = pygame.transform.scale(assets['options_img_1'], (main_menu_btn_w, main_menu_btn_h))
+    assets['quit_img_0']        = pygame.image.load('assets/img/quit_0.png').convert_alpha()
+    assets['quit_img_0']        = pygame.transform.scale(assets['quit_img_0'], (main_menu_btn_w, main_menu_btn_h))
+    assets['quit_img_1']        = pygame.image.load('assets/img/quit_1.png').convert_alpha()
+    assets['quit_img_1']        = pygame.transform.scale(assets['quit_img_1'], (main_menu_btn_w, main_menu_btn_h))
+    assets['languages_img_0']   = pygame.image.load('assets/img/language_0.png').convert_alpha()
+    assets['languages_img_0']   = pygame.transform.scale(assets['languages_img_0'], (main_menu_btn_w, main_menu_btn_h))
+    assets['languages_img_1']   = pygame.image.load('assets/img/language_1.png').convert_alpha()
+    assets['languages_img_1']   = pygame.transform.scale(assets['languages_img_1'], (main_menu_btn_w, main_menu_btn_h))
+    assets['resume_img_0']      = pygame.image.load('assets/img/resume_0.png').convert_alpha()
+    assets['resume_img_0']      = pygame.transform.scale(assets['resume_img_0'], (main_menu_btn_w, main_menu_btn_h))
+    assets['resume_img_1']      = pygame.image.load('assets/img/resume_1.png').convert_alpha()
+    assets['resume_img_1']      = pygame.transform.scale(assets['resume_img_1'], (main_menu_btn_w, main_menu_btn_h))
+    assets['yes_img_0']         = pygame.image.load('assets/img/yes_0.png').convert_alpha()
+    assets['yes_img_0']         = pygame.transform.scale(assets['yes_img_0'], (main_menu_btn_w, main_menu_btn_h))
+    assets['yes_img_1']         = pygame.image.load('assets/img/yes_1.png').convert_alpha()
+    assets['yes_img_1']         = pygame.transform.scale(assets['yes_img_1'], (main_menu_btn_w, main_menu_btn_h))
+    assets['no_img_0']          = pygame.image.load('assets/img/no_0.png').convert_alpha()
+    assets['no_img_0']          = pygame.transform.scale(assets['no_img_0'], (main_menu_btn_w, main_menu_btn_h))
+    assets['no_img_1']          = pygame.image.load('assets/img/no_1.png').convert_alpha()
+    assets['no_img_1']          = pygame.transform.scale(assets['no_img_1'], (main_menu_btn_w, main_menu_btn_h))
+    assets['x_img_0']           = pygame.image.load('assets/img/x_0.png').convert_alpha()
+    assets['x_img_0']           = pygame.transform.scale(assets['x_img_0'], (main_menu_btn_h, main_menu_btn_h))
+    assets['x_img_1']           = pygame.image.load('assets/img/x_1.png').convert_alpha()
+    assets['x_img_1']           = pygame.transform.scale(assets['x_img_1'], (main_menu_btn_h, main_menu_btn_h))
+    assets['muted_img_0']       = pygame.image.load('assets/img/muted_0.png').convert_alpha()
+    assets['muted_img_0']       = pygame.transform.scale(assets['muted_img_0'] , (main_menu_btn_h, main_menu_btn_h))
+    assets['muted_img_1']       = pygame.image.load('assets/img/muted_1.png').convert_alpha()
+    assets['muted_img_1']       = pygame.transform.scale(assets['muted_img_1'] , (main_menu_btn_h, main_menu_btn_h))
+    assets['unmuted_img_0']     = pygame.image.load('assets/img/unmuted_0.png').convert_alpha()
+    assets['unmuted_img_0']     = pygame.transform.scale(assets['unmuted_img_0'] , (main_menu_btn_h, main_menu_btn_h))
+    assets['unmuted_img_1']     = pygame.image.load('assets/img/unmuted_1.png').convert_alpha()
+    assets['unmuted_img_1']     = pygame.transform.scale(assets['unmuted_img_1'] , (main_menu_btn_h, main_menu_btn_h))
+    assets['select_size_img_0'] = pygame.image.load('assets/img/size_0.png').convert_alpha()
+    assets['select_size_img_0'] = pygame.transform.scale(assets['select_size_img_0'], (main_menu_btn_w, main_menu_btn_h))
+    assets['select_size_img_1'] = pygame.image.load('assets/img/size_1.png').convert_alpha()
+    assets['select_size_img_1'] = pygame.transform.scale(assets['select_size_img_1'], (main_menu_btn_w, main_menu_btn_h))
+    # assets['save_img_0']        = pygame.image.load('assets/img/save_btn_img_0.png').convert_alpha()
+    # assets['save_img_0']        = pygame.transform.scale(assets['save_img_0'], (main_menu_btn_w, main_menu_btn_h))
+    # assets['save_img_1']        = pygame.image.load('assets/img/save_btn_img_1.png').convert_alpha()
+    # assets['save_img_1']        = pygame.transform.scale(assets['save_img_1'], (main_menu_btn_w, main_menu_btn_h))
+    explosion_anim = []
+    for i in range(9):
+        filename = 'assets/img/regularExplosion0{}.png'.format(i)
+        img = pygame.image.load(filename).convert_alpha()
+        img = pygame.transform.scale(img, (32, 32))
+        explosion_anim.append(img)
+    assets['explosion_anim'] = explosion_anim
+
+    assets['score_font']     = pygame.font.Font('assets/font/PressStart2P.ttf', 28)
+
+    ''' Sfx '''
+    assets['boom_sound']     = pygame.mixer.Sound('assets/sfx/expl3.wav')
+    assets['destroy_sound']  = pygame.mixer.Sound('assets/sfx/expl6.wav')
+    assets['pew_sound']      = pygame.mixer.Sound('assets/sfx/pew.wav')
     
-assets = {}
-''' Game related imgs '''
-assets['enemy_img']         = pygame.image.load('assets/img/enemy.png').convert_alpha()
-assets['enemy_left_img_0']  = pygame.image.load('assets/img/enemy_left_0.png').convert_alpha()
-assets['enemy_left_img_1']  = pygame.image.load('assets/img/enemy_left_1.png').convert_alpha()
-assets['enemy_right_img_0'] = pygame.image.load('assets/img/enemy_right_0.png').convert_alpha()
-assets['enemy_right_img_1'] = pygame.image.load('assets/img/enemy_right_1.png').convert_alpha()
-assets['hero_left_img']     = pygame.image.load('assets/img/hero_left.png').convert_alpha()                                             
-assets['hero_right_img']    = pygame.image.load('assets/img/hero_right.png').convert_alpha()
-assets['bullet_left_img']   = pygame.image.load('assets/img/bullet_left.png').convert_alpha()
-assets['bullet_right_img']  = pygame.image.load('assets/img/bullet_right.png').convert_alpha()
+    return assets
 
-''' Other imgs '''
-assets['background_day']    = pygame.image.load('assets/img/background_day.png').convert()
-assets['background_day']    = pygame.transform.scale(assets['background_day'], (window_width, window_height))
-assets['background_night']  = pygame.image.load('assets/img/background_night.png').convert()
-assets['background_night']  = pygame.transform.scale(assets['background_night'], (window_width, window_height))
-assets['play_img_0']        = pygame.image.load('assets/img/play_0.png').convert_alpha()
-assets['play_img_0']        = pygame.transform.scale(assets['play_img_0'], (main_menu_btn_w, main_menu_btn_h))
-assets['play_img_1']        = pygame.image.load('assets/img/play_1.png').convert_alpha()
-assets['play_img_1']        = pygame.transform.scale(assets['play_img_1'], (main_menu_btn_w, main_menu_btn_h))
-assets['options_img_0']     = pygame.image.load('assets/img/options_0.png').convert_alpha()
-assets['options_img_0']     = pygame.transform.scale(assets['options_img_0'], (main_menu_btn_w, main_menu_btn_h))
-assets['options_img_1']     = pygame.image.load('assets/img/options_1.png').convert_alpha()
-assets['options_img_1']     = pygame.transform.scale(assets['options_img_1'], (main_menu_btn_w, main_menu_btn_h))
-assets['quit_img_0']        = pygame.image.load('assets/img/quit_0.png').convert_alpha()
-assets['quit_img_0']        = pygame.transform.scale(assets['quit_img_0'], (main_menu_btn_w, main_menu_btn_h))
-assets['quit_img_1']        = pygame.image.load('assets/img/quit_1.png').convert_alpha()
-assets['quit_img_1']        = pygame.transform.scale(assets['quit_img_1'], (main_menu_btn_w, main_menu_btn_h))
-assets['languages_img_0']   = pygame.image.load('assets/img/language_0.png').convert_alpha()
-assets['languages_img_0']   = pygame.transform.scale(assets['languages_img_0'], (main_menu_btn_w, main_menu_btn_h))
-assets['languages_img_1']   = pygame.image.load('assets/img/language_1.png').convert_alpha()
-assets['languages_img_1']   = pygame.transform.scale(assets['languages_img_1'], (main_menu_btn_w, main_menu_btn_h))
-assets['resume_img_0']      = pygame.image.load('assets/img/resume_0.png').convert_alpha()
-assets['resume_img_0']      = pygame.transform.scale(assets['resume_img_0'], (main_menu_btn_w, main_menu_btn_h))
-assets['resume_img_1']      = pygame.image.load('assets/img/resume_1.png').convert_alpha()
-assets['resume_img_1']      = pygame.transform.scale(assets['resume_img_1'], (main_menu_btn_w, main_menu_btn_h))
-assets['yes_img_0']         = pygame.image.load('assets/img/yes_0.png').convert_alpha()
-assets['yes_img_0']         = pygame.transform.scale(assets['yes_img_0'], (main_menu_btn_w, main_menu_btn_h))
-assets['yes_img_1']         = pygame.image.load('assets/img/yes_1.png').convert_alpha()
-assets['yes_img_1']         = pygame.transform.scale(assets['yes_img_1'], (main_menu_btn_w, main_menu_btn_h))
-assets['no_img_0']          = pygame.image.load('assets/img/no_0.png').convert_alpha()
-assets['no_img_0']          = pygame.transform.scale(assets['no_img_0'], (main_menu_btn_w, main_menu_btn_h))
-assets['no_img_1']          = pygame.image.load('assets/img/no_1.png').convert_alpha()
-assets['no_img_1']          = pygame.transform.scale(assets['no_img_1'], (main_menu_btn_w, main_menu_btn_h))
-assets['x_img_0']           = pygame.image.load('assets/img/x_0.png').convert_alpha()
-assets['x_img_0']           = pygame.transform.scale(assets['x_img_0'], (main_menu_btn_h, main_menu_btn_h))
-assets['x_img_1']           = pygame.image.load('assets/img/x_1.png').convert_alpha()
-assets['x_img_1']           = pygame.transform.scale(assets['x_img_1'], (main_menu_btn_h, main_menu_btn_h))
-assets['muted_img_0']       = pygame.image.load('assets/img/muted_0.png').convert_alpha()
-assets['muted_img_0']       = pygame.transform.scale(assets['muted_img_0'] , (main_menu_btn_h, main_menu_btn_h))
-assets['muted_img_1']       = pygame.image.load('assets/img/muted_1.png').convert_alpha()
-assets['muted_img_1']       = pygame.transform.scale(assets['muted_img_1'] , (main_menu_btn_h, main_menu_btn_h))
-assets['unmuted_img_0']     = pygame.image.load('assets/img/unmuted_0.png').convert_alpha()
-assets['unmuted_img_0']     = pygame.transform.scale(assets['unmuted_img_0'] , (main_menu_btn_h, main_menu_btn_h))
-assets['unmuted_img_1']     = pygame.image.load('assets/img/unmuted_1.png').convert_alpha()
-assets['unmuted_img_1']     = pygame.transform.scale(assets['unmuted_img_1'] , (main_menu_btn_h, main_menu_btn_h))
-assets['select_size_img_0'] = pygame.image.load('assets/img/size_0.png').convert_alpha()
-assets['select_size_img_0'] = pygame.transform.scale(assets['select_size_img_0'], (main_menu_btn_w, main_menu_btn_h))
-assets['select_size_img_1'] = pygame.image.load('assets/img/size_1.png').convert_alpha()
-assets['select_size_img_1'] = pygame.transform.scale(assets['select_size_img_1'], (main_menu_btn_w, main_menu_btn_h))
-# assets['save_img_0'] = pygame.image.load('assets/img/save_btn_img_0.png').convert_alpha()
-# assets['save_img_0'] = pygame.transform.scale(assets['save_img_0'], (main_menu_btn_w, main_menu_btn_h))
-# assets['save_img_1'] = pygame.image.load('assets/img/save_btn_img_1.png').convert_alpha()
-# assets['save_img_1'] = pygame.transform.scale(assets['save_img_1'], (main_menu_btn_w, main_menu_btn_h))
+''' Classes '''
+class Hero(pygame.sprite.Sprite):
+    def __init__(self, groups, assets):
+        pygame.sprite.Sprite.__init__(self)
 
-''' Sfx '''
+        self.image        = assets['hero_right_img']
+        self.mask         = pygame.mask.from_surface(self.image)
+        self.rect         = self.image.get_rect()
+        self.rect.centerx = window_width / 2
+        self.rect.bottom  = window_height - 10
+        self.speedx       = 0
+        self.groups       = groups
+        self.assets       = assets
 
+        self.last_shot    = pygame.time.get_ticks()
+        self.shoot_ticks  = 500
 
-'''Classes'''
+    def update(self):
+        self.rect.x += self.speedx
 
+        if self.rect.right > window_width:
+            self.rect.right = window_width
+        if self.rect.left < 0:
+            self.rect.left = 0
 
-'''Funções'''
+    def shoot(self):
+        now = pygame.time.get_ticks()
+        elapsed_ticks = now - self.last_shot
+
+        if elapsed_ticks > self.shoot_ticks:
+            self.last_shot = now
+            new_bullet = Bullet(self.assets, self.rect.top, self.rect.centerx)
+            self.groups['all_sprites'].add(new_bullet)
+            self.groups['all_bullets'].add(new_bullet)
+            self.assets['pew_sound'].play()
+
+class Enemy(pygame.sprite.Sprite):
+    def __init__(self, assets):
+        pygame.sprite.Sprite.__init__(self)
+
+        self.image  = assets['enemy_img']
+        self.mask   = pygame.mask.from_surface(self.image)
+        self.rect   = self.image.get_rect()
+        self.rect.x = random.randint(0, window_width - enemy_width)
+        self.rect.y = random.randint(-100, - enemy_height)
+        self.speedx = random.randint(-3, 3)
+        self.speedy = random.randint(2, 9)
+
+    def update(self):
+        self.rect.x += self.speedx
+        self.rect.y += self.speedy
+
+        if self.rect.top > window_height or self.rect.right < 0 or self.rect.left > window_width:
+            self.rect.x = random.randint(0, window_width - enemy_width)
+            self.rect.y = random.randint(-100, - enemy_height)
+            self.speedx = random.randint(-3, 3)
+            self.speedy = random.randint(2, 9)
+
+class Bullet(pygame.sprite.Sprite):
+    def __init__(self, assets, bottom, centerx):
+        pygame.sprite.Sprite.__init__(self)
+
+        self.image = assets['bullet_right_img']
+        self.mask  = pygame.mask.from_surface(self.image)
+        self.rect  = self.image.get_rect()
+
+        self.rect.centerx = centerx
+        self.rect.bottom  = bottom
+        self.speedy       = -10
+
+    def update(self):
+        self.rect.y += self.speedy
+
+        if self.rect.bottom < 0:
+            self.kill()
+
+class Explosion(pygame.sprite.Sprite):
+    def __init__(self, center, assets):
+        pygame.sprite.Sprite.__init__(self)
+
+        self.explosion_anim = assets['explosion_anim']
+
+        self.frame = 0
+        self.image = self.explosion_anim[self.frame]
+        self.rect  = self.image.get_rect()
+        self.rect.center = center
+
+        self.last_update = pygame.time.get_ticks()
+
+        self.frame_ticks = 50
+
+    def update(self):
+        now = pygame.time.get_ticks()
+        elapsed_ticks = now - self.last_update
+
+        if elapsed_ticks > self.frame_ticks:
+            self.last_update = now
+            self.frame += 1
+
+            if self.frame == len(self.explosion_anim):
+                self.kill()
+            else:
+                center           = self.rect.center
+                self.image       = self.explosion_anim[self.frame]
+                self.rect        = self.image.get_rect()
+                self.rect.center = center
+
+''' Functions '''
 def main_menu():
-    global VOLUME
-    
     RUNNING = 1
     QUIT    = 0
     PLAY_CLICK = OPTIONS_CLICK = QUIT_CLICK = False
     state = RUNNING
 
+    assets = load_assets()
+
     while state != QUIT:
         x, y = pygame.mouse.get_pos()
-
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 state = QUIT
@@ -158,6 +291,7 @@ def main_menu():
             if event.type == pygame.MOUSEBUTTONUP:
                 if play_btn.collidepoint(x, y):
                     game()
+                    PLAY_CLICK = False
                 else:
                     PLAY_CLICK = False
 
@@ -203,13 +337,39 @@ def main_menu():
 
     pygame.quit()
 
+
+def game_over():
+    pass
+
+
 def game():
-    global VOLUME
-    
-    RUNNING = 1
-    QUIT    = 0
+    EXPLODING = 2
+    RUNNING   = 1
+    QUIT      = 0
     
     state = RUNNING
+
+    assets = load_assets()
+
+    all_sprites = pygame.sprite.Group()
+    all_enemies = pygame.sprite.Group()
+    all_bullets = pygame.sprite.Group()
+    groups = {}
+    groups['all_sprites'] = all_sprites
+    groups['all_meteors'] = all_enemies
+    groups['all_bullets'] = all_bullets
+
+    player = Hero(groups, assets)
+    all_sprites.add(player)
+
+    for i in range(8):
+        enemy = Enemy(assets)
+        all_sprites.add(enemy)
+        all_enemies.add(enemy)
+
+    score = 0
+    lives = 3
+    keys_down = {}
     
     while state != QUIT:
         for event in pygame.event.get():
@@ -217,27 +377,99 @@ def game():
                 state = QUIT
 
             if event.type == pygame.KEYDOWN:
+                keys_down[event.key] = True
+                
                 if event.key == pygame.K_ESCAPE:
                     pause()
 
+                if event.key == pygame.K_LEFT:
+                    player.speedx -= 8
+                    
+                if event.key == pygame.K_RIGHT:
+                    player.speedx += 8
+                    
+                if event.key == pygame.K_SPACE:
+                    player.shoot()
+
+            if event.type == pygame.KEYUP:
+                if event.key in keys_down and keys_down[event.key]:
+                    if event.key == pygame.K_LEFT:
+                        player.speedx += 8
+
+                    if event.key == pygame.K_RIGHT:
+                        player.speedx -= 8
+
+        all_sprites.update()
+
+        if state == RUNNING:
+            hits = pygame.sprite.groupcollide(all_enemies, all_bullets, True, True, pygame.sprite.collide_mask)
+            for enemy in hits:
+                assets['destroy_sound'].play()
+                e = Enemy(assets)
+                all_sprites.add(e)
+                all_enemies.add(e)
+
+                explosion = Explosion(enemy.rect.center, assets)
+                all_sprites.add(explosion)
+
+                score += 100
+                if score % 1000 == 0:
+                    lives += 1
+
+            hits = pygame.sprite.spritecollide(player, all_enemies, True, pygame.sprite.collide_mask)
+            if len(hits) > 0:
+                assets['boom_sound'].play()
+                player.kill()
+                lives -= 1
+                explosion = Explosion(player.rect.center, assets)
+                all_sprites.add(explosion)
+                state = EXPLODING
+                keys_down = {}
+                explosion_tick = pygame.time.get_ticks()
+                explosion_duration = explosion.frame_ticks * len(explosion.explosion_anim) + 400
+
+        elif state == EXPLODING:
+            now = pygame.time.get_ticks()
+            if now - explosion_tick > explosion_duration:
+                if lives == 0:
+                    return False
+##                    game_over()
+                else:
+                    state = RUNNING
+                    player = Hero(groups, assets)
+                    all_sprites.add(player)
+
         window.blit(assets['background_night'], (0, 0))
+        all_sprites.draw(window)
+
+        text_surface = assets['score_font'].render('{:08d}'.format(score), True, BLACK)
+        text_rect    = text_surface.get_rect()
+        text_rect.midtop = (window_width/2, 10)
+        window.blit(text_surface, text_rect)
+
+        text_surface = assets['score_font'].render(chr(9829) * lives, True, GREEN)
+        text_rect    = text_surface.get_rect()
+        text_rect.bottomleft = (10, window_height - 10)
+        window.blit(text_surface, text_rect)
 
         pygame.display.update()
         clock.tick(FPS)
 
     pygame.quit()
 
+
 MUTED   = False
 UNMUTED = True
 sound = UNMUTED
 def settings():
-    global VOLUME
     global sound
     RUNNING = 1
     QUIT    = 0
     MUTE_CLICK = X_CLICK = LANGUAGES_CLICK = SIZE_CLICK = False
 
     state = RUNNING
+
+    assets = load_assets()
     
     while state != QUIT:
         x, y = pygame.mouse.get_pos()
@@ -328,14 +560,15 @@ def settings():
 
     pygame.quit()
 
+
 def select_size():
-    global VOLUME
-    
     RUNNING = 1
     QUIT    = 0
 
     X_CLICK = False
-    state = RUNNING
+    state   = RUNNING
+
+    assets  = load_assets()
     
     while state != QUIT:
         x, y = pygame.mouse.get_pos()
@@ -370,14 +603,15 @@ def select_size():
 
     pygame.quit()
 
+
 def languages():
-    global VOLUME
-    
     RUNNING = 1
     QUIT    = 0
 
     X_CLICK = False
     state = RUNNING
+
+    assets = load_assets()
     
     while state != QUIT:
         x, y = pygame.mouse.get_pos()
@@ -412,12 +646,12 @@ def languages():
     pygame.quit()
 
 def pause():
-    global VOLUME
-    
     RUNNING = 1
     QUIT    = 0
     RESUME_CLICK = MENU_CLICK = False
     state = RUNNING
+
+    assets = load_assets()
     
     while state != QUIT:
         x, y = pygame.mouse.get_pos()
@@ -466,12 +700,12 @@ def pause():
     pygame.quit()
 
 def confirm_exit():
-    global VOLUME
-    
     RUNNING = 1
     QUIT    = 0
     NO_CLICK = YES_CLICK = False    
     state = RUNNING
+
+    assets = load_assets()
     
     while state != QUIT:
         x, y = pygame.mouse.get_pos()
