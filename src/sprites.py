@@ -22,7 +22,7 @@ class Hero(pygame.sprite.Sprite):
 
         if side == RIGHT:
             self.image = assets['hero_right_img']
-            
+
         self.mask         = pygame.mask.from_surface(self.image)
         self.rect         = self.image.get_rect()
         self.rect.centerx = window_width / 4
@@ -33,7 +33,7 @@ class Hero(pygame.sprite.Sprite):
 
     def update(self):
         self.speedy += gravity
-        
+
         self.rect.x += self.speedx
         self.rect.y += self.speedy
 
@@ -45,7 +45,7 @@ class Hero(pygame.sprite.Sprite):
 
         if self.rect.right > window_width:
             self.rect.right = window_width
-            
+
         if self.rect.left < 0:
             self.rect.left = 0
 
@@ -72,7 +72,7 @@ class Hero(pygame.sprite.Sprite):
 
 ''' ===== CAMERA ===== '''
 class Camera(pygame.sprite.Sprite):
-    def __init__(self, groups, assets):
+    def __init__(self, assets):
         pygame.sprite.Sprite.__init__(self)
 
         self.image     = assets['background_day_1']
@@ -98,18 +98,17 @@ class Camera(pygame.sprite.Sprite):
 
 ''' ===== PLATFORM ===== '''
 class Platform(pygame.sprite.Sprite):
-    def __init__(self, assets, x, y, width, height):
+    def __init__(self, assets, left, top):
         pygame.sprite.Sprite.__init__(self)
 
-        self.x      = x
-        self.y      = y
-        self.width  = width
-        self.height = height
-
-        self.rect = pygame.draw.rect(window, INSPER_RED, (x, y, width, height))
-
-        self.speedx = Camera.speedx
-        self.state = STILL
+        self.assets = assets
+        self.image  = assets['platform_img']
+        self.mask   = pygame.mask.from_surface(self.image)
+        self.rect   = self.image.get_rect()
+        self.rect.left = left
+        self.rect.top  = top
+        self.speedx = 0
+        self.state  = STILL
 
     def update(self):
         self.rect.x += self.speedx

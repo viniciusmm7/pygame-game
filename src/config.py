@@ -14,7 +14,7 @@ hero_width    = 75
 hero_height   = 75
 enemy_width   = int(hero_width * 2/3)
 enemy_height  = int(hero_height * 2/3)
-gravity       = window_height // (225 * 2)
+gravity       = window_height // 450
 vi_jump       = 18 * gravity
 
 # ----- Generating Main Window
