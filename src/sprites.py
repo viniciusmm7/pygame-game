@@ -1,6 +1,6 @@
-import pygame, random
-from assets import *
-from config import *
+import pygame
+import random
+from config import STILL, JUMPING, MOVING, LEFT, RIGHT, window_width, window_height, gravity, vi_jump, enemy_width
 
 ''' ===== HERO ===== '''
 class Hero(pygame.sprite.Sprite):

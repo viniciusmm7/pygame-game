@@ -1,9 +1,7 @@
 import pygame
 
-from assets import *
-from config import *
-from main_screen import *
-from pause_screen import *
+from assets import load_assets
+from config import FPS, INSPER_RED, other_text_pos_0, play_btn_pos_left, btns_layer, quit_btn_pos_left, window, clock
 
 def confirm_exit():
     RUNNING = 1

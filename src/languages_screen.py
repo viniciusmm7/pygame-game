@@ -1,17 +1,19 @@
-import pygame, options_screen
+import pygame
 
-from assets import *
-from main_screen import *
+from config import INSPER_RED, FPS, window, main_menu_btn_h, clock
+from options_screen import settings
+from assets import load_assets
+
 
 def languages():
     RUNNING = 1
-    QUIT    = 0
+    QUIT = 0
 
     X_CLICK = False
     state = RUNNING
 
     assets = load_assets()
-    
+
     while state != QUIT:
         x, y = pygame.mouse.get_pos()
         for event in pygame.event.get():
@@ -20,7 +22,7 @@ def languages():
 
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
-                    options_screen.settings()
+                    settings()
 
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if x_btn.collidepoint(x, y):
@@ -32,9 +34,10 @@ def languages():
                 else:
                     X_CLICK = False
 
-        x_btn = pygame.draw.rect(window, INSPER_RED, (20, 20, main_menu_btn_h, main_menu_btn_h))
+        x_btn = pygame.draw.rect(
+            window, INSPER_RED, (20, 20, main_menu_btn_h, main_menu_btn_h))
         window.blit(assets['background_day'], (0, 0))
-        
+
         if X_CLICK == False:
             window.blit(assets['x_img_0'], (20, 20))
         else:

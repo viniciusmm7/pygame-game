@@ -1,7 +1,7 @@
 import pygame, game_screen, main_screen
 
-from config import *
-from assets import *
+from assets import load_assets
+from config import FPS, INSPER_RED, window, other_text_pos_0, other_text_pos_1, play_btn_pos_left, btns_layer, quit_btn_pos_left, clock
 
 def game_over():
     RUNNING = 1

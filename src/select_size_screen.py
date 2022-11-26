@@ -1,18 +1,18 @@
 import pygame
 
 from assets import load_assets
-from config import *
-from options_screen import *
+from config import FPS, INSPER_RED, main_menu_btn_h, window, clock
+
 
 def select_size():
     RUNNING = 1
-    QUIT    = 0
+    QUIT = 0
 
     X_CLICK = False
-    state   = RUNNING
+    state = RUNNING
 
-    assets  = load_assets()
-    
+    assets = load_assets()
+
     while state != QUIT:
         x, y = pygame.mouse.get_pos()
         for event in pygame.event.get():
@@ -33,7 +33,8 @@ def select_size():
                 else:
                     X_CLICK = False
 
-        x_btn = pygame.draw.rect(window, INSPER_RED, (20, 20, main_menu_btn_h, main_menu_btn_h))
+        x_btn = pygame.draw.rect(
+            window, INSPER_RED, (20, 20, main_menu_btn_h, main_menu_btn_h))
         window.blit(assets['background_day'], (0, 0))
 
         if X_CLICK == False:

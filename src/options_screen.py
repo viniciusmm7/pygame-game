@@ -1,25 +1,26 @@
-import pygame, main_screen
+import pygame
+from main_screen import main_menu
 
-from config import *
+from config import FPS, INSPER_RED, window, play_btn_pos_left, window_height, main_menu_btn_h, main_menu_btn_w, clock
 from assets import load_assets
-from game_over_screen import *
-from languages_screen import *
-from select_size_screen import *
+from languages_screen import languages
+from select_size_screen import select_size
 
-MUTED   = False
+MUTED = False
 UNMUTED = True
 sound = UNMUTED
+
 
 def settings():
     global sound
     RUNNING = 1
-    QUIT    = 0
+    QUIT = 0
     MUTE_CLICK = X_CLICK = LANGUAGES_CLICK = SIZE_CLICK = False
 
     state = RUNNING
 
     assets = load_assets()
-    
+
     while state != QUIT:
         x, y = pygame.mouse.get_pos()
         for event in pygame.event.get():
@@ -28,7 +29,7 @@ def settings():
 
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
-                    main_screen.main_menu()
+                    main_menu()
 
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if mute_btn.collidepoint(x, y):
@@ -36,7 +37,7 @@ def settings():
 
                 if languages_btn.collidepoint(x, y):
                     LANGUAGES_CLICK = True
-                
+
                 if x_btn.collidepoint(x, y):
                     X_CLICK = True
 
@@ -66,7 +67,7 @@ def settings():
 
                 ''' X button event '''
                 if x_btn.collidepoint(x, y):
-                    main_screen.main_menu()
+                    main_menu()
                     X_CLICK = False
                 else:
                     X_CLICK = False
@@ -78,32 +79,42 @@ def settings():
                 else:
                     SIZE_CLICK = False
 
-        languages_btn = pygame.draw.rect(window, INSPER_RED, (play_btn_pos_left, window_height / 4, main_menu_btn_w, main_menu_btn_h))
-        x_btn         = pygame.draw.rect(window, INSPER_RED, (20, 20, main_menu_btn_h, main_menu_btn_h))
-        mute_btn      = pygame.draw.rect(window, INSPER_RED, (play_btn_pos_left + 2/5 * main_menu_btn_h, window_height / 8, main_menu_btn_h, main_menu_btn_h))
-        size_btn      = pygame.draw.rect(window, INSPER_RED, (play_btn_pos_left, window_height / 3, main_menu_btn_w, main_menu_btn_h))
+        languages_btn = pygame.draw.rect(
+            window, INSPER_RED, (play_btn_pos_left, window_height / 4, main_menu_btn_w, main_menu_btn_h))
+        x_btn = pygame.draw.rect(
+            window, INSPER_RED, (20, 20, main_menu_btn_h, main_menu_btn_h))
+        mute_btn = pygame.draw.rect(window, INSPER_RED, (play_btn_pos_left + 2 /
+                                    5 * main_menu_btn_h, window_height / 8, main_menu_btn_h, main_menu_btn_h))
+        size_btn = pygame.draw.rect(
+            window, INSPER_RED, (play_btn_pos_left, window_height / 3, main_menu_btn_w, main_menu_btn_h))
         window.blit(assets['background_day'], (0, 0))
 
         if LANGUAGES_CLICK == False:
-            window.blit(assets['languages_img_0'], (play_btn_pos_left, window_height/4))
+            window.blit(assets['languages_img_0'],
+                        (play_btn_pos_left, window_height/4))
         else:
-            window.blit(assets['languages_img_1'], (play_btn_pos_left, window_height/4))
-        
+            window.blit(assets['languages_img_1'],
+                        (play_btn_pos_left, window_height/4))
+
         if X_CLICK == False:
             window.blit(assets['x_img_0'], (20, 20))
         else:
             window.blit(assets['x_img_1'], (20, 20))
-            
+
         if sound == UNMUTED:
-            window.blit(assets['unmuted_img_0'], (play_btn_pos_left + 2/5 * main_menu_btn_h, window_height / 8))
+            window.blit(assets['unmuted_img_0'], (play_btn_pos_left +
+                        2/5 * main_menu_btn_h, window_height / 8))
         else:
-            window.blit(assets['muted_img_0'], (play_btn_pos_left + 2/5 * main_menu_btn_h, window_height / 8))
+            window.blit(assets['muted_img_0'], (play_btn_pos_left +
+                        2/5 * main_menu_btn_h, window_height / 8))
 
         if SIZE_CLICK == False:
-            window.blit(assets['select_size_img_0'], (play_btn_pos_left, window_height * 3/8))
+            window.blit(assets['select_size_img_0'],
+                        (play_btn_pos_left, window_height * 3/8))
         else:
-            window.blit(assets['select_size_img_1'], (play_btn_pos_left, window_height * 3/8))
-                
+            window.blit(assets['select_size_img_1'],
+                        (play_btn_pos_left, window_height * 3/8))
+
         pygame.display.update()
         clock.tick(FPS)
 
