@@ -3,7 +3,7 @@ import pygame
 from config import FPS, INSPER_RED, window, play_btn_pos_left, btns_layer, main_menu_btn_w, main_menu_btn_h, settings_btn_pos_left, quit_btn_pos_left, game_name, game_name_pos, clock
 from assets import load_assets
 from game_screen import game
-from options_screen import settings
+# from options_screen import settings
 from confirm_exit_screen import confirm_exit
 
 
@@ -39,7 +39,7 @@ def main_menu():
                     PLAY_CLICK = False
 
                 if settings_btn.collidepoint(x, y):
-                    settings()
+                    # settings()
                     OPTIONS_CLICK = False
                 else:
                     OPTIONS_CLICK = False

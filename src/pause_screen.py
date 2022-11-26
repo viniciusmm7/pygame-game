@@ -1,9 +1,8 @@
 import pygame
 
-from main_screen import main_menu
+# from main_screen import main_menu
 from assets import load_assets
 from config import FPS, INSPER_RED, window, clock, play_btn_pos_left, btns_layer, main_menu_btn_w, main_menu_btn_h, window_height
-from game_screen import game
 
 
 def pause():

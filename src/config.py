@@ -8,8 +8,8 @@ JUMPING = MOVING = LEFT = 1
 RIGHT = 2
 
 # ----- Geometry
-window_width = 1000
-window_height = 1000
+window_width = 700
+window_height = 600
 hero_width = 75
 hero_height = 75
 enemy_width = int(hero_width * 2/3)
